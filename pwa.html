@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Real Holat - PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="pwa-styles.css">
+</head>
+
+<body>
+    <!-- Mode Switcher + Language -->
+    <div class="mode-switcher" id="mode-switcher">
+        <!-- Language Switcher -->
+        <div class="lang-switcher-pwa" id="pwa-lang-switcher">
+            <button class="lang-btn-pwa active" data-lang="uz">UZ</button>
+            <button class="lang-btn-pwa" data-lang="ru">RU</button>
+            <button class="lang-btn-pwa" data-lang="en">EN</button>
+        </div>
+        <!-- Mode buttons -->
+        <button class="mode-btn active" data-mode="simple">
+            <i class="fas fa-user"></i>
+            <span data-i18n="nav.simple">Oddiy</span>
+        </button>
+        <button class="mode-btn" data-mode="geek">
+            <i class="fas fa-chart-line"></i>
+            <span data-i18n="nav.analytics">Tahlil</span>
+        </button>
+    </div>
+
+    <!-- ============ SIMPLE MODE - STEP BY STEP WIZARD ============ -->
+    <div class="simple-mode active" id="simple-mode">
+        <!-- Header -->
+        <div class="simple-header">
+            <div class="header-left">
+                <div class="app-logo">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="app-title">
+                    <h1>Real Holat</h1>
+                    <span data-i18n="appSubtitle">Fuqarolar portali</span>
+                </div>
+            </div>
+            <div class="user-stats">
+                <div class="stat-badge">
+                    <i class="fas fa-medal"></i>
+                    <span id="simple-level">3</span>
+                </div>
+                <div class="stat-badge coins">
+                    <i class="fas fa-coins"></i>
+                    <span id="simple-points">1250</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamification Banner -->
+        <div class="gamification-card">
+            <div class="level-progress">
+                <div class="level-info">
+                    <span class="level-name">Faol Fuqaro</span>
+                    <span class="level-xp"><span id="current-xp">650</span>/<span id="max-xp">1000</span> XP</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="xp-bar" style="width: 65%"></div>
+                </div>
+            </div>
+            <div class="daily-streak">
+                <i class="fas fa-fire"></i>
+                <span>5 <span data-i18n="success.days">kun</span></span>
+            </div>
+        </div>
+
+        <!-- Step Progress Indicator -->
+        <div class="step-progress">
+            <div class="step-item active" data-step="1">
+                <div class="step-circle">1</div>
+                <span data-i18n="wizard.step1">Muammo</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-item" data-step="2">
+                <div class="step-circle">2</div>
+                <span data-i18n="wizard.step2">Joylashuv</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-item" data-step="3">
+                <div class="step-circle">3</div>
+                <span data-i18n="wizard.step3">Rasm</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-item" data-step="4">
+                <div class="step-circle">4</div>
+                <span data-i18n="wizard.step4">Kategoriya</span>
+            </div>
+        </div>
+
+        <!-- STEP 1: Voice/Text Input -->
+        <div class="wizard-step active" id="step-1">
+            <div class="step-card">
+                <div class="step-header">
+                    <button class="step-icon voice-icon" id="voice-record-btn">
+                        <i class="fas fa-microphone"></i>
+                        <div class="pulse-ring"></div>
+                    </button>
+                    <h2 data-i18n="wizard.describeIssue">Muammoni aytib bering</h2>
+                    <p data-i18n="wizard.describeHint">Gapiring yoki yozing - biz tushunib olamiz</p>
+                </div>
+
+
+
+                <div class="or-divider">
+                    <span data-i18n="wizard.or">yoki</span>
+                </div>
+
+                <div class="text-input-area">
+                    <textarea class="issue-text" id="issue-text" data-i18n-placeholder="wizard.writeProblem"
+                        placeholder="Muammoni yozing... Masalan: Yo'lda katta chuqur bor"></textarea>
+                </div>
+
+                <div class="ai-response" id="ai-response" style="display: none;">
+                    <div class="ai-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="ai-text">
+                        <strong>AI tahlil qildi:</strong>
+                        <p id="ai-result"></p>
+                    </div>
+                    <button class="confirm-btn" id="confirm-problem">
+                        <i class="fas fa-check"></i> Ha, to'g'ri
+                    </button>
+                </div>
+
+                <button class="next-step-btn" id="next-to-step-2" disabled>
+                    Keyingi qadam <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 2: Location -->
+        <div class="wizard-step" id="step-2">
+            <div class="simple-step">
+                <h2 data-i18n="wizard.shareLocation">Joylashuvni ulashing</h2>
+                <p data-i18n="wizard.locationHint">Muammo qayerda ekanini bilishimiz kerak</p>
+
+                <div class="location-preview" id="location-preview"
+                    style="display: none; flex-direction: column; align-items: start; padding: 15px; gap: 5px;">
+                    <div style="font-weight: 600; color: white;" id="location-address">Mazil aniqlanmoqda...</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);" id="location-coords">0.0000, 0.0000
+                    </div>
+                    <div id="map-container"
+                        style="width: 100%; height: 120px; border-radius: 8px; margin-top: 10px; background: rgba(255,255,255,0.1);">
+                    </div>
+                </div>
+
+                <div class="location-status" id="location-status">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="location-text" data-i18n="wizard.geoportalData">Geoportal ma'lumotlari</span>
+                </div>
+
+                <button class="action-btn-large" id="share-location-btn">
+                    <i class="fas fa-location-arrow"></i>
+                    <span data-i18n="wizard.shareLocationBtn">Joylashuvni ulashish</span>
+                </button>
+
+                <!-- Detected Object Card (Hidden by default) -->
+                <div class="detected-object-card" id="detected-object" style="display: none;">
+                    <div class="detected-header">
+                        <div class="detected-icon" id="detected-icon"></div>
+                        <div class="detected-info">
+                            <h3 id="detected-name">Obyekt nomi</h3>
+                            <span id="detected-type">Turi</span>
+                        </div>
+                    </div>
+                    <div class="detected-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-map-pin"></i>
+                            <span id="detected-distance"></span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-tag"></i>
+                            <span id="auto-category"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Object Found Card (Hidden by default) -->
+                <div class="no-object-card" id="no-object-found" style="display: none;">
+                    <i class="fas fa-search-location"></i>
+                    <p>Yaqin atrofda Geoportal obyektlari topilmadi</p>
+                </div>
+
+                <div class="step-nav">
+                    <button class="prev-step-btn" id="back-to-step-1">
+                        <i class="fas fa-arrow-left"></i> <span data-i18n="wizard.back">Orqaga</span>
+                    </button>
+                    <button class="next-step-btn" id="next-to-step-3" disabled>
+                        Keyingi qadam <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Photo -->
+        <div class="wizard-step" id="step-3">
+            <div class="simple-step">
+                <h2 data-i18n="wizard.takePhoto">Rasmga oling</h2>
+                <p data-i18n="wizard.photoHint">Muammoning rasmini yuboring</p>
+
+                <div class="photo-area">
+                    <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+                    <input type="file" id="gallery-input" accept="image/*" hidden>
+
+                    <button class="photo-btn camera" id="take-photo"
+                        onclick="document.getElementById('camera-input').click()">
+                        <i class="fas fa-camera"></i>
+                        <span data-i18n="wizard.camera">Rasmga olish</span>
+                    </button>
+                    <button class="photo-btn gallery" id="choose-photo"
+                        onclick="document.getElementById('gallery-input').click()">
+                        <i class="fas fa-image"></i>
+                        <span data-i18n="wizard.gallery">Galereyadan</span>
+                    </button>
+                </div>
+
+                <div class="photo-preview" id="photo-preview" style="display: none;">
+                    <img id="preview-img" src="" alt="Preview">
+                    <button class="remove-photo" id="remove-photo"><i class="fas fa-times"></i></button>
+                </div>
+
+                <div class="step-nav">
+                    <button class="prev-step-btn" id="back-to-step-2">
+                        <i class="fas fa-arrow-left"></i> <span data-i18n="wizard.back">Orqaga</span>
+                    </button>
+                    <button class="next-step-btn" id="next-to-step-4" disabled>
+                        Keyingi qadam <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: Category Selection -->
+        <div class="wizard-step" id="step-4">
+            <div class="simple-step">
+                <h2 data-i18n="wizard.selectCategory">Kategoriyani tanlang</h2>
+                <p data-i18n="wizard.categoryHint">Muammo qaysi soha bilan bog'liq?</p>
+
+                <div class="category-grid">
+                    <button class="category-card school" data-cat="school">
+                        <div class="cat-icon"><i class="fas fa-school"></i></div>
+                        <span data-i18n="categories.school">Maktab</span>
+                        <small>+50 XP</small>
+                    </button>
+                    <button class="category-card clinic" data-cat="clinic">
+                        <div class="cat-icon"><i class="fas fa-hospital"></i></div>
+                        <span data-i18n="categories.clinic">Klinika</span>
+                        <small>+50 XP</small>
+                    </button>
+                    <button class="category-card road" data-cat="road">
+                        <div class="cat-icon"><i class="fas fa-road"></i></div>
+                        <span data-i18n="categories.road">Yo'l</span>
+                        <small>+40 XP</small>
+                    </button>
+                    <button class="category-card water" data-cat="water">
+                        <div class="cat-icon"><i class="fas fa-droplet"></i></div>
+                        <span data-i18n="categories.water">Suv</span>
+                        <small>+40 XP</small>
+                    </button>
+                    <button class="category-card kindergarten" data-cat="kindergarten">
+                        <div class="cat-icon"><i class="fas fa-child"></i></div>
+                        <span data-i18n="categories.kindergarten">Bog'cha</span>
+                        <small>+50 XP</small>
+                    </button>
+                    <button class="category-card sport" data-cat="sport">
+                        <div class="cat-icon"><i class="fas fa-futbol"></i></div>
+                        <span data-i18n="categories.sport">Sport</span>
+                        <small>+45 XP</small>
+                    </button>
+                </div>
+
+                <div class="step-nav">
+                    <button class="prev-step-btn" id="back-to-step-3">
+                        <i class="fas fa-arrow-left"></i> <span data-i18n="wizard.back">Orqaga</span>
+                    </button>
+                    <button class="submit-btn" id="submit-report" disabled>
+                        <i class="fas fa-paper-plane"></i> <span data-i18n="wizard.submit">Yuborish</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="wizard-step" id="step-success">
+            <div class="success-card">
+                <div class="success-animation">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Murojaatingiz yuborildi!</h2>
+                <div class="report-summary">
+                    <div class="summary-row">
+                        <span>Murojaat raqami:</span>
+                        <strong id="report-number">#1234</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Kategoriya:</span>
+                        <strong id="report-category">Yo'l</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxminiy javob:</span>
+                        <strong>3-5 kun</strong>
+                    </div>
+                </div>
+                <div class="xp-earned">
+                    <i class="fas fa-star"></i>
+                    <span>+<span id="total-xp">140</span> XP olindi!</span>
+                </div>
+                <button class="new-report-btn" id="new-report">
+                    <i class="fas fa-plus"></i> Yangi murojaat
+                </button>
+            </div>
+        </div>
+
+        <!-- My Reports Section (scrollable below) -->
+        <div class="reports-section" id="reports-section">
+            <div class="section-header">
+                <h2>Mening murojaatlarim</h2>
+                <span class="reports-count">12 ta</span>
+            </div>
+            <div class="reports-list" id="simple-reports"></div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-tab="home">
+                <i class="fas fa-home"></i>
+                <span data-i18n="nav.home">Bosh sahifa</span>
+            </button>
+            <button class="nav-btn" data-tab="reports">
+                <i class="fas fa-map-marked-alt"></i>
+                <span data-i18n="nav.reports">Murojaatlar</span>
+            </button>
+            <button class="nav-btn" data-tab="analytics">
+                <i class="fas fa-chart-bar"></i>
+                <span data-i18n="nav.analytics">Tahlil</span>
+            </button>
+            <button class="nav-btn" data-tab="profile">
+                <i class="fas fa-user"></i>
+                <span data-i18n="nav.profile">Profil</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- ============ GEEK MODE - MAP + ANALYTICS ============ -->
+    <div class="geek-mode" id="geek-mode">
+        <!-- Map Container -->
+        <div class="map-container" id="map"></div>
+
+        <!-- Floating Stats (like geoasr.uz) -->
+        <div class="floating-stats">
+            <div class="float-stat">
+                <span class="stat-value" id="stat-total">1,247</span>
+                <span class="stat-label">Jami murojaatlar</span>
+            </div>
+            <div class="float-stat success">
+                <span class="stat-value" id="stat-resolved">892</span>
+                <span class="stat-label">Hal qilindi</span>
+            </div>
+            <div class="float-stat warning">
+                <span class="stat-value" id="stat-progress">355</span>
+                <span class="stat-label">Jarayonda</span>
+            </div>
+        </div>
+
+        <!-- Filter Panel (right side like geoasr) -->
+        <div class="filter-panel" id="filter-panel">
+            <div class="filter-header">
+                <h3><i class="fas fa-filter"></i> <span data-i18n="analytics.filters">Filtrlar</span></h3>
+                <button class="toggle-filters" id="toggle-filters">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+            </div>
+            <div class="filter-content">
+                <div class="filter-group">
+                    <label data-i18n="bot.category">Kategoriya</label>
+                    <div class="filter-chips">
+                        <button class="chip active" data-filter="all" data-i18n="analytics.all">Hammasi</button>
+                        <button class="chip" data-filter="school"><i class="fas fa-school"></i></button>
+                        <button class="chip" data-filter="kindergarten"><i class="fas fa-child"></i></button>
+                        <button class="chip" data-filter="clinic"><i class="fas fa-hospital"></i></button>
+                        <button class="chip" data-filter="sport"><i class="fas fa-futbol"></i></button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label data-i18n="bot.status">Holat</label>
+                    <div class="filter-chips status-chips">
+                        <button class="chip active" data-status="all" data-i18n="analytics.all">Hammasi</button>
+                        <button class="chip" data-status="resolved"><i class="fas fa-check"></i> <span
+                                data-i18n="status.resolved">Hal qilindi</span></button>
+                        <button class="chip" data-status="progress"><i class="fas fa-spinner"></i> <span
+                                data-i18n="status.inProgress">Jarayonda</span></button>
+                        <button class="chip" data-status="pending"><i class="fas fa-clock"></i> <span
+                                data-i18n="status.pending">Kutilmoqda</span></button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Hudud</label>
+                    <select class="region-select" id="region-select">
+                        <option value="all">Barcha hududlar</option>
+                        <option value="buxoro" selected>Buxoro</option>
+                        <option value="tashkent">Toshkent</option>
+                        <option value="samarkand">Samarqand</option>
+                        <option value="navoiy">Navoiy</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Panel (left bottom) -->
+        <div class="analytics-panel" id="analytics-panel">
+            <div class="analytics-header">
+                <h3><i class="fas fa-chart-bar"></i> <span data-i18n="analytics.title">Tahlil</span></h3>
+                <button class="toggle-analytics" id="toggle-analytics">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+            <div class="analytics-content">
+                <!-- Chart: Problems by Category (like geoasr stats) -->
+                <div class="chart-card">
+                    <h4 data-i18n="analytics.byCategory">Kategoriya bo'yicha</h4>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <span class="bar-label">Maktab</span>
+                            <div class="bar-track">
+                                <div class="bar-fill school" style="width: 78%"></div>
+                            </div>
+                            <span class="bar-value">11,139</span>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">Bog'cha</span>
+                            <div class="bar-track">
+                                <div class="bar-fill kindergarten" style="width: 62%"></div>
+                            </div>
+                            <span class="bar-value">6,935</span>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">Klinika</span>
+                            <div class="bar-track">
+                                <div class="bar-fill clinic" style="width: 27%"></div>
+                            </div>
+                            <span class="bar-value">3,034</span>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">Sport</span>
+                            <div class="bar-track">
+                                <div class="bar-fill sport" style="width: 3%"></div>
+                            </div>
+                            <span class="bar-value">356</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heatmap Toggle -->
+                <div class="chart-card">
+                    <h4 data-i18n="analytics.heatmap">Issiqlik xaritasi</h4>
+                    <div class="heatmap-legend">
+                        <div class="legend-item">
+                            <div class="legend-color low"></div>
+                            <span data-i18n="analytics.low">Kam</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color medium"></div>
+                            <span data-i18n="analytics.medium">O'rtacha</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color high"></div>
+                            <span data-i18n="analytics.high">Ko'p</span>
+                        </div>
+                    </div>
+                    <button class="heatmap-toggle" id="heatmap-toggle">
+                        <i class="fas fa-fire"></i> <span data-i18n="analytics.showHeatmap">Issiqlik xaritasini
+                            ko'rsatish</span>
+                    </button>
+                </div>
+
+                <!-- Trend Chart -->
+                <div class="chart-card">
+                    <h4 data-i18n="analytics.monthlyTrend">Oylik trend</h4>
+                    <div class="trend-chart">
+                        <div class="trend-bars">
+                            <div class="trend-bar" style="height: 40%"><span>Sen</span></div>
+                            <div class="trend-bar" style="height: 55%"><span>Okt</span></div>
+                            <div class="trend-bar" style="height: 70%"><span>Noy</span></div>
+                            <div class="trend-bar active" style="height: 85%"><span>Dek</span></div>
+                            <div class="trend-bar" style="height: 60%"><span>Yan</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamification Mini Panel -->
+        <div class="geek-gamification">
+            <div class="mini-level">
+                <i class="fas fa-medal"></i>
+                <span>Lv.<span id="geek-level">3</span></span>
+            </div>
+            <div class="mini-xp">
+                <div class="mini-xp-bar" id="geek-xp-bar" style="width: 65%"></div>
+            </div>
+            <div class="mini-points">
+                <i class="fas fa-coins"></i>
+                <span id="geek-points">1,250</span>
+            </div>
+        </div>
+
+        <!-- FAB for new report -->
+        <button class="fab-btn" id="fab-new-report">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon"><i class="fas fa-check"></i></div>
+        <div class="toast-content">
+            <span class="toast-title" data-i18n="toast.success">Muvaffaqiyat!</span>
+            <span class="toast-message" id="toast-message" data-i18n="toast.actionDone">Amal bajarildi</span>
+        </div>
+    </div>
+
+    <!-- Achievement Popup -->
+    <div class="achievement-popup" id="achievement-popup">
+        <div class="achievement-content">
+            <div class="achievement-badge">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h3 data-i18n="gamification.achievementUnlocked">Yangi yutuq!</h3>
+            <p id="achievement-text">Birinchi murojaat</p>
+            <span class="achievement-reward">+100 XP</span>
+            <button class="achievement-close" id="close-achievement" data-i18n="common.continue">Davom etish</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="i18n.js"></script>
+    <script src="geoportal-sample.js"></script>
+    <script src="pwa-app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Real Holat - Telegram Bot UI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Phone Frame -->
+    <div class="phone-container">
+        <div class="phone-frame">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span class="time" id="current-time">20:18</span>
+                <div class="status-icons">
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <span class="battery"><i class="fas fa-battery-three-quarters"></i> 78%</span>
+                </div>
+            </div>
+
+            <!-- Telegram Header with Language Switcher -->
+            <div class="telegram-header">
+                <button class="back-btn" id="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="bot-info">
+                    <div class="bot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="bot-details">
+                        <span class="bot-name">Real Holat Bot</span>
+                        <span class="bot-status" data-i18n="bot.online">bot • online</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <!-- Language Switcher -->
+                    <div class="lang-switcher-mini" id="bot-lang-switcher">
+                        <button class="lang-btn-mini active" data-lang="uz">UZ</button>
+                        <button class="lang-btn-mini" data-lang="ru">RU</button>
+                        <button class="lang-btn-mini" data-lang="en">EN</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simple Gamification Bar (minimized) -->
+            <div class="gamification-bar-mini" id="gamification-bar">
+                <div class="user-stats-mini">
+                    <span class="level-mini"><i class="fas fa-medal"></i> <span id="user-level">3</span></span>
+                    <span class="xp-mini"><span id="current-xp">650</span>/1000 XP</span>
+                </div>
+                <div class="points-mini">
+                    <i class="fas fa-coins"></i>
+                    <span id="user-points">1250</span>
+                </div>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="chat-container" id="chat-container">
+                <!-- Messages will be added here dynamically -->
+            </div>
+
+            <!-- Quick Actions - Full set -->
+            <div class="quick-actions" id="quick-actions">
+                <button class="quick-action-btn" data-action="report">
+                    <i class="fas fa-plus-circle"></i>
+                    <span data-i18n="success.newReport">Yangi murojaat</span>
+                </button>
+                <button class="quick-action-btn" data-action="status">
+                    <i class="fas fa-clock-rotate-left"></i>
+                    <span data-i18n="bot.status">Holat</span>
+                </button>
+                <button class="quick-action-btn" data-action="location">
+                    <i class="fas fa-location-dot"></i>
+                    <span data-i18n="bot.location">Joylashuv</span>
+                </button>
+                <button class="quick-action-btn" data-action="photo">
+                    <i class="fas fa-camera"></i>
+                    <span data-i18n="wizard.camera">Rasm</span>
+                </button>
+            </div>
+
+            <!-- Category Selector Modal -->
+            <div class="category-modal" id="category-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 data-i18n="wizard.selectCategory">Kategoriyani tanlang</h3>
+                        <button class="close-modal" id="close-category"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="category-grid">
+                        <button class="category-item" data-category="school">
+                            <div class="category-icon school">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <span data-i18n="categories.school">Maktab</span>
+                        </button>
+                        <button class="category-item" data-category="clinic">
+                            <div class="category-icon clinic">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <span data-i18n="categories.clinic">Klinika</span>
+                        </button>
+                        <button class="category-item" data-category="road">
+                            <div class="category-icon road">
+                                <i class="fas fa-road"></i>
+                            </div>
+                            <span data-i18n="categories.road">Yo'l</span>
+                        </button>
+                        <button class="category-item" data-category="water">
+                            <div class="category-icon water">
+                                <i class="fas fa-droplet"></i>
+                            </div>
+                            <span data-i18n="categories.water">Suv</span>
+                        </button>
+                        <button class="category-item" data-category="kindergarten">
+                            <div class="category-icon kindergarten">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <span data-i18n="categories.kindergarten">Bog'cha</span>
+                        </button>
+                        <button class="category-item" data-category="sport">
+                            <div class="category-icon sport">
+                                <i class="fas fa-futbol"></i>
+                            </div>
+                            <span data-i18n="categories.sport">Sport</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Modal -->
+            <div class="status-modal" id="status-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 data-i18n="reports.myReports">Mening murojaatlarim</h3>
+                        <button class="close-modal" id="close-status"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="status-list">
+                        <div class="status-item resolved">
+                            <div class="status-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="status-info">
+                                <span class="status-title">Maktab #45 ta'mir</span>
+                                <span class="status-date">10-yanvar 2026</span>
+                            </div>
+                            <div class="status-badge resolved" data-i18n="status.resolved">Hal qilindi</div>
+                        </div>
+                        <div class="status-item in-progress">
+                            <div class="status-icon"><i class="fas fa-spinner"></i></div>
+                            <div class="status-info">
+                                <span class="status-title">Yo'l chuqurlari</span>
+                                <span class="status-date">08-yanvar 2026</span>
+                            </div>
+                            <div class="status-badge in-progress" data-i18n="status.inProgress">Jarayonda</div>
+                        </div>
+                        <div class="status-item pending">
+                            <div class="status-icon"><i class="fas fa-clock"></i></div>
+                            <div class="status-info">
+                                <span class="status-title">Suv ta'minoti</span>
+                                <span class="status-date">05-yanvar 2026</span>
+                            </div>
+                            <div class="status-badge pending" data-i18n="status.pending">Kutilmoqda</div>
+                        </div>
+                    </div>
+                    <div class="status-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label" data-i18n="status.total">Jami</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label" data-i18n="status.resolved">Hal qilindi</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4</span>
+                            <span class="stat-label" data-i18n="status.inProgress">Jarayonda</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Toast -->
+            <div class="achievement-toast" id="achievement-toast">
+                <div class="achievement-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="achievement-info">
+                    <span class="achievement-title" data-i18n="achievements.title">Yangi yutuq!</span>
+                    <span class="achievement-name" id="achievement-name">Birinchi murojaat</span>
+                </div>
+                <span class="achievement-xp">+100 XP</span>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <input type="file" id="photo-upload" accept="image/*" hidden>
+                <button class="attach-btn" id="attach-btn"><i class="fas fa-paperclip"></i></button>
+                <input type="text" class="message-input" data-i18n-placeholder="bot.typeMessage"
+                    placeholder="Xabar yozing..." id="message-input">
+                <button class="voice-btn" id="voice-btn"><i class="fas fa-microphone"></i></button>
+                <button class="send-btn" id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="i18n.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

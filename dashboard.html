@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Holat - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="dashboard-styles.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Real Holat</span>
+            </div>
+            <span class="badge">GOV</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-page="dashboard">
+                <i class="fas fa-chart-pie"></i>
+                <span data-i18n="dashboard.nav.dashboard">Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-page="reports">
+                <i class="fas fa-file-lines"></i>
+                <span data-i18n="dashboard.nav.reports">Murojaatlar</span>
+                <span class="nav-badge">247</span>
+            </a>
+            <a href="#" class="nav-item" data-page="map">
+                <i class="fas fa-map"></i>
+                <span data-i18n="dashboard.nav.map">Xarita</span>
+            </a>
+            <a href="#" class="nav-item" data-page="analytics">
+                <i class="fas fa-chart-line"></i>
+                <span data-i18n="dashboard.nav.analytics">Tahlil</span>
+            </a>
+            <a href="#" class="nav-item" data-page="users">
+                <i class="fas fa-users"></i>
+                <span data-i18n="dashboard.nav.users">Foydalanuvchilar</span>
+            </a>
+            <a href="#" class="nav-item" data-page="settings">
+                <i class="fas fa-cog"></i>
+                <span data-i18n="dashboard.nav.settings">Sozlamalar</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name">Admin</span>
+                    <span class="user-role">Buxoro hokimligi</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" data-i18n-placeholder="dashboard.header.searchPlaceholder"
+                    placeholder="Murojaat raqami yoki manzil bo'yicha qidirish...">
+            </div>
+            <div class="header-actions">
+                <!-- Language Switcher -->
+                <div class="lang-switcher-dashboard">
+                    <button class="lang-btn-dash active" data-lang="uz">UZ</button>
+                    <button class="lang-btn-dash" data-lang="ru">RU</button>
+                    <button class="lang-btn-dash" data-lang="en">EN</button>
+                </div>
+                <button class="header-btn notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge">12</span>
+                </button>
+                <button class="header-btn">
+                    <i class="fas fa-envelope"></i>
+                </button>
+                <div class="header-user">
+                    <span>Buxoro</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Page -->
+        <div class="page active" id="page-dashboard">
+            <div class="page-header">
+                <h1 data-i18n="dashboard.nav.dashboard">Dashboard</h1>
+                <div class="date-filter">
+                    <button class="date-btn active" data-i18n="dashboard.time.today">Bugun</button>
+                    <button class="date-btn" data-i18n="dashboard.time.week">Hafta</button>
+                    <button class="date-btn" data-i18n="dashboard.time.month">Oy</button>
+                    <button class="date-btn" data-i18n="dashboard.time.year">Yil</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-file-lines"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">1,247</span>
+                        <span class="stat-label" data-i18n="dashboard.stats.total">Jami murojaatlar</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i> 12%
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">247</span>
+                        <span class="stat-label" data-i18n="dashboard.stats.pending">Kutilmoqda</span>
+                    </div>
+                    <div class="stat-trend down">
+                        <i class="fas fa-arrow-down"></i> 5%
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon progress">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">108</span>
+                        <span class="stat-label" data-i18n="dashboard.stats.inProgress">Jarayonda</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i> 8%
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon resolved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">892</span>
+                        <span class="stat-label" data-i18n="dashboard.stats.resolved">Hal qilindi</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i> 23%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card wide">
+                    <div class="chart-header">
+                        <h3 data-i18n="dashboard.charts.dynamics">Murojaatlar dinamikasi</h3>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="dot submitted"></span> <span
+                                    data-i18n="dashboard.charts.submitted">Kelgan</span></span>
+                            <span class="legend-item"><span class="dot resolved"></span> <span
+                                    data-i18n="dashboard.charts.resolved">Hal qilindi</span></span>
+                        </div>
+                    </div>
+                    <div class="line-chart">
+                        <div class="chart-bars">
+                            <div class="chart-bar-group">
+                                <div class="bar submitted" style="height: 60%"></div>
+                                <div class="bar resolved" style="height: 45%"></div>
+                                <span>Dush</span>
+                            </div>
+                            <div class="chart-bar-group">
+                                <div class="bar submitted" style="height: 75%"></div>
+                                <div class="bar resolved" style="height: 55%"></div>
+                                <span>Sesh</span>
+                            </div>
+                            <div class="chart-bar-group">
+                                <div class="bar submitted" style="height: 50%"></div>
+                                <div class="bar resolved" style="height: 40%"></div>
+                                <span>Chor</span>
+                            </div>
+                            <div class="chart-bar-group">
+                                <div class="bar submitted" style="height: 90%"></div>
+                                <div class="bar resolved" style="height: 65%"></div>
+                                <span>Pay</span>
+                            </div>
+                            <div class="chart-bar-group">
+                                <div class="bar submitted" style="height: 70%"></div>
+                                <div class="bar resolved" style="height: 60%"></div>
+                                <span>Jum</span>
+                            </div>
+                            <div class="chart-bar-group">
+                                <div class="bar submitted" style="height: 40%"></div>
+                                <div class="bar resolved" style="height: 35%"></div>
+                                <span>Shan</span>
+                            </div>
+                            <div class="chart-bar-group active">
+                                <div class="bar submitted" style="height: 85%"></div>
+                                <div class="bar resolved" style="height: 50%"></div>
+                                <span>Yak</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 data-i18n="dashboard.charts.byCategory">Kategoriya bo'yicha</h3>
+                    </div>
+                    <div class="donut-chart">
+                        <div class="donut">
+                            <div class="donut-center">
+                                <span class="donut-value">1,247</span>
+                                <span class="donut-label" data-i18n="dashboard.charts.total">Jami</span>
+                            </div>
+                        </div>
+                        <div class="donut-legend">
+                            <div class="legend-row">
+                                <span class="dot road"></span>
+                                <span data-i18n="categories.road">Yo'l</span>
+                                <span class="legend-value">423 (34%)</span>
+                            </div>
+                            <div class="legend-row">
+                                <span class="dot water"></span>
+                                <span data-i18n="categories.water">Suv</span>
+                                <span class="legend-value">287 (23%)</span>
+                            </div>
+                            <div class="legend-row">
+                                <span class="dot school"></span>
+                                <span data-i18n="categories.school">Maktab</span>
+                                <span class="legend-value">221 (18%)</span>
+                            </div>
+                            <div class="legend-row">
+                                <span class="dot clinic"></span>
+                                <span data-i18n="categories.clinic">Klinika</span>
+                                <span class="legend-value">189 (15%)</span>
+                            </div>
+                            <div class="legend-row">
+                                <span class="dot other"></span>
+                                <span>Boshqa</span>
+                                <span class="legend-value">127 (10%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Reports Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 data-i18n="dashboard.table.title">So'nggi murojaatlar</h3>
+                    <button class="btn-primary">
+                        <i class="fas fa-eye"></i> <span data-i18n="dashboard.table.viewAll">Barchasini ko'rish</span>
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th data-i18n="dashboard.table.cols.id">ID</th>
+                            <th data-i18n="dashboard.table.cols.report">Murojaat</th>
+                            <th data-i18n="dashboard.table.cols.category">Kategoriya</th>
+                            <th data-i18n="dashboard.table.cols.address">Manzil</th>
+                            <th data-i18n="dashboard.table.cols.date">Sana</th>
+                            <th data-i18n="dashboard.table.cols.status">Holat</th>
+                            <th data-i18n="dashboard.table.cols.actions">Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reports-table">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Reports Page -->
+        <div class="page" id="page-reports">
+            <div class="page-header">
+                <h1>Murojaatlar</h1>
+                <div class="filter-group">
+                    <select class="filter-select">
+                        <option>Barcha kategoriyalar</option>
+                        <option>Yo'l</option>
+                        <option>Suv</option>
+                        <option>Maktab</option>
+                        <option>Klinika</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Barcha holatlar</option>
+                        <option>Kutilmoqda</option>
+                        <option>Jarayonda</option>
+                        <option>Hal qilindi</option>
+                    </select>
+                    <button class="btn-secondary">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="reports-grid" id="reports-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Map Page -->
+        <div class="page" id="page-map">
+            <div class="page-header">
+                <h1 data-i18n="dashboard.nav.map">Xarita</h1>
+                <div class="filter-group">
+                    <button class="btn-secondary" id="refresh-map">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="map-container"
+                style="height: calc(100vh - 180px); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+                <div id="dashboard-map" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div class="page" id="page-analytics">
+            <div class="page-header">
+                <h1 data-i18n="dashboard.nav.analytics">Tahlil</h1>
+            </div>
+            <div class="empty-state">
+                <div class="empty-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Tez orada ishga tushadi</h3>
+                <p>Tahlillar bo'limi ishlab chiqish jarayonida</p>
+            </div>
+        </div>
+
+        <!-- Users Page -->
+        <div class="page" id="page-users">
+            <div class="page-header">
+                <h1 data-i18n="dashboard.nav.users">Foydalanuvchilar</h1>
+            </div>
+            <div class="empty-state">
+                <div class="empty-icon"><i class="fas fa-users"></i></div>
+                <h3>Tez orada ishga tushadi</h3>
+                <p>Foydalanuvchilar bo'limi ishlab chiqish jarayonida</p>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="page-settings">
+            <div class="page-header">
+                <h1 data-i18n="dashboard.nav.settings">Sozlamalar</h1>
+            </div>
+            <div class="empty-state">
+                <div class="empty-icon"><i class="fas fa-cog"></i></div>
+                <h3>Tez orada ishga tushadi</h3>
+                <p>Sozlamalar bo'limi ishlab chiqish jarayonida</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Report Detail Modal -->
+    <div class="modal" id="report-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Murojaat #<span id="modal-id">1234</span></h2>
+                <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="report-detail">
+                    <div class="detail-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>Muammo rasmi</span>
+                        </div>
+                    </div>
+                    <div class="detail-info">
+                        <div class="info-row">
+                            <label>Kategoriya:</label>
+                            <span id="modal-category" class="category-badge">Yo'l</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Manzil:</label>
+                            <span id="modal-address">Buxoro, Olmazor ko'chasi</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Koordinatalar:</label>
+                            <span id="modal-coords">40.2976, 64.4058</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Yuborilgan sana:</label>
+                            <span id="modal-date">12-yanvar 2026, 14:32</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Foydalanuvchi:</label>
+                            <span id="modal-user">Aziz K. (Level 3)</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Tavsif:</label>
+                            <p id="modal-description">Yo'lda katta chuqur bor, mashinalar o'ta olmayapti. Ta'mir talab
+                                qilinadi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-changer">
+                    <label>Holatni o'zgartirish:</label>
+                    <div class="status-buttons">
+                        <button class="status-btn pending" data-status="pending">
+                            <i class="fas fa-clock"></i> Kutilmoqda
+                        </button>
+                        <button class="status-btn progress" data-status="progress">
+                            <i class="fas fa-spinner"></i> Jarayonda
+                        </button>
+                        <button class="status-btn resolved" data-status="resolved">
+                            <i class="fas fa-check"></i> Hal qilindi
+                        </button>
+                    </div>
+                </div>
+
+                <div class="response-section">
+                    <label>Javob yozish:</label>
+                    <textarea placeholder="Fuqaroga javob xabarini yozing..." id="response-text"></textarea>
+                    <button class="btn-primary full-width" id="send-response">
+                        <i class="fas fa-paper-plane"></i> Javob yuborish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Amal muvaffaqiyatli bajarildi</span>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="i18n.js"></script>
+    <script src="dashboard-app.js"></script>
+</body>
+
+</html>
