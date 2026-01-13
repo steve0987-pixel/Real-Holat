@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Real Holat - PWA</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#667eea">
+    <!-- iOS PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Real Holat">
+    <link rel="apple-touch-icon" href="icon-192.svg">
+    <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -135,7 +141,7 @@
                 </div>
 
                 <button class="next-step-btn" id="next-to-step-2" disabled>
-                    Keyingi qadam <i class="fas fa-arrow-right"></i>
+                    <span data-i18n="wizard.nextStep">Keyingi qadam</span> <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
@@ -198,7 +204,7 @@
                         <i class="fas fa-arrow-left"></i> <span data-i18n="wizard.back">Orqaga</span>
                     </button>
                     <button class="next-step-btn" id="next-to-step-3" disabled>
-                        Keyingi qadam <i class="fas fa-arrow-right"></i>
+                        <span data-i18n="wizard.nextStep">Keyingi qadam</span> <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -236,7 +242,7 @@
                         <i class="fas fa-arrow-left"></i> <span data-i18n="wizard.back">Orqaga</span>
                     </button>
                     <button class="next-step-btn" id="next-to-step-4" disabled>
-                        Keyingi qadam <i class="fas fa-arrow-right"></i>
+                        <span data-i18n="wizard.nextStep">Keyingi qadam</span> <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -546,6 +552,7 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="i18n.js"></script>
+    <script src="utils.js"></script>
     <script src="geoportal-sample.js"></script>
     <script src="pwa-app.js"></script>
 </body>

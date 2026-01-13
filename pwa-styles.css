@@ -1,47 +1,47 @@
-/* ===== PWA Variables - STRICT COLORS + TRUE LIQUID GLASS ===== */
+/* ===== PWA Variables - MODERN WARM PALETTE ===== */
 :root {
-    /* Strict Monochrome Dark Palette */
-    --bg-primary: #0c0c0e;
-    --bg-secondary: rgba(18, 18, 22, 0.95);
-    --bg-card: rgba(24, 24, 30, 0.4);
+    /* Soft Dark Background */
+    --bg-primary: #0f0f14;
+    --bg-secondary: rgba(20, 20, 28, 0.95);
+    --bg-card: rgba(30, 30, 42, 0.4);
 
-    /* Muted Gray-Blue Accent */
-    --accent: #5a6a8a;
-    --accent-light: #7a8aaa;
-    --accent-glow: rgba(90, 106, 138, 0.3);
+    /* Warm Purple-Teal Accent */
+    --accent: #8b7cf7;
+    --accent-light: #a89cff;
+    --accent-glow: rgba(139, 124, 247, 0.25);
 
-    /* Muted Status Colors */
-    --success: #4a9a6a;
-    --warning: #9a8a4a;
-    --danger: #9a4a4a;
+    /* Softer Status Colors */
+    --success: #5cd6a8;
+    --warning: #f0b866;
+    --danger: #f07878;
 
-    /* Text Colors - Soft Whites */
-    --text-primary: rgba(255, 255, 255, 0.92);
-    --text-secondary: rgba(255, 255, 255, 0.5);
-    --text-muted: rgba(255, 255, 255, 0.3);
+    /* Text Colors - Warm Whites */
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-muted: rgba(255, 255, 255, 0.35);
 
-    /* Muted Gold */
-    --gold: #b8a060;
+    /* Soft Gold */
+    --gold: #f0c674;
 
-    /* Strict Gradients - Subtle, Almost Flat */
-    --gradient-accent: linear-gradient(135deg, rgba(90, 106, 138, 0.9) 0%, rgba(70, 86, 118, 0.9) 100%);
-    --gradient-success: linear-gradient(135deg, rgba(74, 154, 106, 0.9) 0%, rgba(54, 134, 86, 0.9) 100%);
-    --gradient-gold: linear-gradient(135deg, rgba(184, 160, 96, 0.9) 0%, rgba(164, 140, 76, 0.9) 100%);
-    --gradient-danger: linear-gradient(135deg, rgba(154, 74, 74, 0.9) 0%, rgba(134, 54, 54, 0.9) 100%);
+    /* Smooth Gradients */
+    --gradient-accent: linear-gradient(135deg, #8b7cf7 0%, #6ee7b7 100%);
+    --gradient-success: linear-gradient(135deg, #5cd6a8 0%, #34d399 100%);
+    --gradient-gold: linear-gradient(135deg, #f0c674 0%, #fbbf24 100%);
+    --gradient-danger: linear-gradient(135deg, #f07878 0%, #ef4444 100%);
 
     /* TRUE LIQUID GLASS Variables */
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-bg-strong: rgba(255, 255, 255, 0.06);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --glass-border-subtle: rgba(255, 255, 255, 0.06);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-bg-strong: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-border-subtle: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     --glass-blur: blur(24px);
     --glass-blur-heavy: blur(40px);
 
     /* Glass Shine Effects */
-    --glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
-    --glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
-    --glass-inner-glow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    --glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+    --glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 40%);
+    --glass-inner-glow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -68,9 +68,9 @@ body::before {
     width: 200%;
     height: 200%;
     background:
-        radial-gradient(circle at 20% 80%, rgba(90, 106, 138, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 80% 20%, rgba(70, 86, 118, 0.06) 0%, transparent 40%),
-        radial-gradient(circle at 40% 40%, rgba(74, 154, 106, 0.04) 0%, transparent 30%);
+        radial-gradient(circle at 20% 80%, rgba(139, 124, 247, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(110, 231, 183, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 40% 40%, rgba(240, 182, 102, 0.04) 0%, transparent 30%);
     z-index: -1;
     animation: floatOrbs 30s ease-in-out infinite;
 }

@@ -536,7 +536,7 @@ function stopRecording() {
 
     // Show AI analysis
     state.problemText = "Yo'lda katta chuqur bor, mashinalar o'ta olmayapti. Tezroq ta'mir qilish kerak.";
-    document.getElementById('problem-text').value = state.problemText;
+    document.getElementById('issue-text').value = state.problemText;
 
     const aiResponse = document.getElementById('ai-response');
     aiResponse.style.display = 'flex';
@@ -760,8 +760,9 @@ function resetWizard() {
     state.detectedObject = null;
 
     document.getElementById('share-location-btn').classList.remove('done');
+    const t = typeof i18n !== 'undefined' ? i18n.t.bind(i18n) : (k) => k;
     document.getElementById('share-location-btn').innerHTML =
-        '<i class="fas fa-location-crosshairs"></i><span>Joylashuvni ulashish</span><small>+30 XP</small>';
+        `<i class="fas fa-location-arrow"></i><span>${t('wizard.shareLocationBtn')}</span>`;
 
 
     document.querySelectorAll('.photo-btn').forEach(btn => btn.classList.remove('done'));

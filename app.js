@@ -1,5 +1,4 @@
 // ===== State Management =====
-// ===== State Management =====
 const state = {
     userPoints: 1250,
     userXP: 650,
@@ -279,20 +278,19 @@ function handleQuickAction(action) {
 }
 
 function shareLocation() {
-    addUserMessage("📍 " + i18n.t('bot.messages.sharingLocation'));
+    const t = (k) => i18n.t(k);
+    addUserMessage("📍 " + t('bot.messages.sharingLocation'));
 
     showTypingIndicator();
 
     setTimeout(() => {
         removeTypingIndicator();
 
-        // Simulate location near a data point (or random)
-        // Point #1 in CSV: 40.29767385, 64.40581629 (Suv)
+        // Simulate location near a data point
         const userLat = 40.29767385 + (Math.random() * 0.0004 - 0.0002);
         const userLon = 64.40581629 + (Math.random() * 0.0004 - 0.0002);
 
         // Add location message
-        const t = (k) => i18n.t(k);
         const locationHTML = `
             <div class="location-message">
                 <div class="location-preview">
@@ -310,43 +308,35 @@ function shareLocation() {
         state.locationShared = true;
         addXP(30);
 
-        // Check Geoportal
+        // Check Geoportal - only suggest if no category already selected
         const nearest = findNearestGeoportalObject(userLat, userLon);
 
         setTimeout(() => {
-            if (nearest) {
-                const typeInfo = {
-                    school: { icon: '🏫', name: 'Maktab' },
-                    clinic: { icon: '🏥', name: 'Klinika' },
-                    road: { icon: '🛣️', name: 'Yo\'l' },
-                    water: { icon: '💧', name: 'Suv' },
-                    kindergarten: { icon: '👶', name: 'Bog\'cha' },
-                    sport: { icon: '⚽', name: 'Sport' }
-                };
-                const info = typeInfo[nearest.object_type] || { icon: '📍', name: 'Obyekt' };
+            if (nearest && !state.selectedCategory) {
+                const categoryName = t('categories.' + nearest.object_type);
+                addBotMessage(`✅ Geoportal: <b>${nearest.name}</b>\n${t('wizard.detected')}! (~${nearest.distance}m)\n\n${t('wizard.autoCategory')}: ${categoryName}`);
 
-                addBotMessage(`✅ Geoportal: <b>${nearest.name}</b> aniqlandi!\nMasofa: ~${nearest.distance} metr.\n\nKategoriya avtomatik tanlandi: ${info.name} ${info.icon}`);
-
-                // Auto-select category logic (optional, but good for UX)
-                // We'll just suggest it for now or we could enable state.selectedCategory
-                state.selectedCategory = nearest.object_type;
-
-                // Add quick action to confirm
-                addQuickReplies([`Tasdiqlash: ${info.name}`, 'Boshqa tanlash']);
+                // Suggest but don't override
+                addQuickReplies([`✅ ${categoryName}`, `🔄 ${t('wizard.selectManually')}`]);
+            } else if (nearest && state.selectedCategory) {
+                // User already selected category, just confirm location
+                addBotMessage(`✅ ${t('bot.messages.locationReceived')}`);
             } else {
-                addBotMessage(i18n.t('bot.messages.locationReceived') + "\n(Yaqin atrofda Geoportal obyektlari topilmadi)");
+                addBotMessage(`${t('bot.messages.locationReceived')}\n(${t('wizard.noObjectFound')})`);
             }
         }, 800);
     }, 1500);
 }
 
 function takePhoto() {
+    const t = (k) => i18n.t(k);
+
     if (!state.locationShared) {
-        addBotMessage(i18n.t('bot.messages.pleaseShareLocation'));
+        addBotMessage(t('bot.messages.pleaseShareLocation'));
         return;
     }
 
-    addUserMessage("📷 " + i18n.t('bot.messages.sendingPhoto'));
+    addUserMessage("📷 " + t('bot.messages.sendingPhoto'));
 
     showTypingIndicator();
 
@@ -358,7 +348,7 @@ function takePhoto() {
                 <div class="photo-preview">
                     <i class="fas fa-image"></i>
                 </div>
-                <div class="photo-caption">${i18n.t('bot.messages.photoSent')}</div>
+                <div class="photo-caption">${t('bot.messages.photoSent')}</div>
             </div>
         `;
         chatContainer.insertAdjacentHTML('beforeend', photoHTML);
@@ -368,27 +358,41 @@ function takePhoto() {
         addXP(20);
 
         setTimeout(() => {
-            addBotMessage(i18n.t('bot.messages.photoReceived'));
-            categoryModal.classList.add('active');
+            addBotMessage(t('bot.messages.photoReceived'));
+            // Only show category modal if not already selected
+            if (!state.selectedCategory) {
+                categoryModal.classList.add('active');
+            } else {
+                // Category already selected, complete the report
+                const categories = getCategoryInfo();
+                completeReport(categories[state.selectedCategory]);
+            }
         }, 500);
     }, 2000);
 }
 
-function selectCategory(category) {
-    const categories = {
-        school: { name: "Maktab", icon: "🏫", xp: 50 },
-        clinic: { name: "Klinika", icon: "🏥", xp: 50 },
-        road: { name: "Yo'l", icon: "🛣️", xp: 40 },
-        water: { name: "Suv", icon: "💧", xp: 40 },
-        kindergarten: { name: "Bog'cha", icon: "👶", xp: 50 },
-        sport: { name: "Sport", icon: "⚽", xp: 45 }
+// Helper: Get category info with i18n
+function getCategoryInfo() {
+    const t = (k) => i18n.t(k);
+    return {
+        school: { name: t('categories.school'), icon: "🏫", xp: 50 },
+        clinic: { name: t('categories.clinic'), icon: "🏥", xp: 50 },
+        road: { name: t('categories.road'), icon: "🛣️", xp: 40 },
+        water: { name: t('categories.water'), icon: "💧", xp: 40 },
+        kindergarten: { name: t('categories.kindergarten'), icon: "👶", xp: 50 },
+        sport: { name: t('categories.sport'), icon: "⚽", xp: 45 }
     };
+}
 
+function selectCategory(category) {
+    const t = (k) => i18n.t(k);
+    const categories = getCategoryInfo();
     const cat = categories[category];
+
     state.selectedCategory = category;
     categoryModal.classList.remove('active');
 
-    addUserMessage(`${cat.icon} ${cat.name} kategoriyasi tanlandi`);
+    addUserMessage(`${cat.icon} ${cat.name}`);
 
     showTypingIndicator();
 
@@ -396,13 +400,13 @@ function selectCategory(category) {
         removeTypingIndicator();
         addXP(cat.xp);
 
-        addBotMessage(`✅ ${cat.name} ${i18n.t('bot.messages.categoryAccepted')}`);
+        addBotMessage(`✅ ${cat.name} ${t('bot.messages.categoryAccepted')}`);
 
         setTimeout(() => {
             if (state.locationShared && state.photoTaken) {
                 completeReport(cat);
             } else {
-                addBotMessage(i18n.t('bot.messages.needLocationAndPhoto'));
+                addBotMessage(t('bot.messages.needLocationAndPhoto'));
             }
         }, 800);
     }, 1000);

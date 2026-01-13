@@ -228,55 +228,6 @@ const translations = {
         }
     },
 
-    // Dashboard
-    dashboard: {
-        nav: {
-            dashboard: "Dashboard",
-            reports: "Murojaatlar",
-            map: "Xarita",
-            analytics: "Tahlil",
-            users: "Foydalanuvchilar",
-            settings: "Sozlamalar"
-        },
-        header: {
-            searchPlaceholder: "Qidirish...",
-            gov: "GOV"
-        },
-        time: {
-            today: "Bugun",
-            week: "Hafta",
-            month: "Oy",
-            year: "Yil"
-        },
-        stats: {
-            total: "Jami murojaatlar",
-            pending: "Kutilmoqda",
-            inProgress: "Jarayonda",
-            resolved: "Hal qilindi"
-        },
-        charts: {
-            dynamics: "Murojaatlar dinamikasi",
-            submitted: "Kelgan",
-            resolved: "Hal qilindi",
-            byCategory: "Kategoriya bo'yicha",
-            total: "Jami"
-        },
-        table: {
-            title: "So'nggi murojaatlar",
-            viewAll: "Barchasini ko'rish",
-            cols: {
-                id: "ID",
-                report: "Murojaat",
-                category: "Kategoriya",
-                address: "Manzil",
-                date: "Sana",
-                status: "Holat",
-                actions: "Amallar"
-            }
-        },
-        export: "Export"
-    },
-
     // ===== RUSSIAN =====
     ru: {
         // Common

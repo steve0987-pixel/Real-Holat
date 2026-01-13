@@ -1,23 +1,36 @@
-/* ===== CSS Variables ===== */
+/* ===== CSS Variables - WARM MODERN PALETTE ===== */
 :root {
-    --telegram-bg: #0e1621;
-    --telegram-header: #17212b;
-    --telegram-input: #17212b;
-    --telegram-blue: #5eb5f7;
-    --telegram-green: #4fae4e;
-    --message-out: #2b5278;
-    --message-in: #182533;
-    --text-primary: #ffffff;
-    --text-secondary: #7d8b99;
-    --accent-gold: #ffd700;
-    --accent-silver: #c0c0c0;
-    --accent-bronze: #cd7f32;
-    --success: #4fae4e;
-    --warning: #f5a623;
-    --danger: #e74c3c;
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-gold: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
-    --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    /* Warm Dark Background */
+    --telegram-bg: #0f0f14;
+    --telegram-header: #16161d;
+    --telegram-input: #16161d;
+
+    /* Warm Purple-Teal Accents */
+    --telegram-blue: #8b7cf7;
+    --telegram-green: #5cd6a8;
+
+    /* Message Colors */
+    --message-out: #3d2b6b;
+    --message-in: #1e1e2a;
+
+    /* Text */
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+
+    /* Accent Colors */
+    --accent-gold: #f0c674;
+    --accent-silver: #c4c4d0;
+    --accent-bronze: #d4a574;
+
+    /* Status Colors */
+    --success: #5cd6a8;
+    --warning: #f0b866;
+    --danger: #f07878;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #8b7cf7 0%, #6ee7b7 100%);
+    --gradient-gold: linear-gradient(135deg, #f0c674 0%, #fbbf24 100%);
+    --gradient-success: linear-gradient(135deg, #5cd6a8 0%, #34d399 100%);
 }
 
 * {
@@ -28,7 +41,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: linear-gradient(135deg, #0f0f14 0%, #1a1525 50%, #0f1a20 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
