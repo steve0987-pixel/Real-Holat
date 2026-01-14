@@ -4,19 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Real Holat - PWA</title>
+    <title>Sign - PWA</title>
+    <link rel="icon" type="image/svg+xml" href="assets/icons/icon-192.svg">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#667eea">
     <!-- iOS PWA Support -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Real Holat">
-    <link rel="apple-touch-icon" href="icon-192.svg">
+    <meta name="apple-mobile-web-app-title" content="Sign">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.svg">
     <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="pwa-styles.css">
+    <link rel="stylesheet" href="css/pwa-styles.css">
 </head>
 
 <body>
@@ -45,10 +46,11 @@
         <div class="simple-header">
             <div class="header-left">
                 <div class="app-logo">
-                    <i class="fas fa-map-marker-alt"></i>
+                    <img src="assets/icons/icon-192.svg" alt="Sign"
+                        style="width: 40px; height: 40px; border-radius: 8px;">
                 </div>
                 <div class="app-title">
-                    <h1>Real Holat</h1>
+                    <h1>Sign</h1>
                     <span data-i18n="appSubtitle">Fuqarolar portali</span>
                 </div>
             </div>
@@ -551,10 +553,10 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="i18n.js"></script>
-    <script src="utils.js"></script>
-    <script src="geoportal-sample.js"></script>
-    <script src="pwa-app.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/geoportal-sample.js"></script>
+    <script src="js/pwa-app.js"></script>
 </body>
 
 </html>

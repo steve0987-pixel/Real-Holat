@@ -1,5 +1,5 @@
 // ===== SERVICE WORKER =====
-// Real Holat PWA - Offline Support
+// Sign PWA - Offline Support
 
 const CACHE_NAME = 'real-holat-v1';
 const STATIC_ASSETS = [
@@ -7,18 +7,18 @@ const STATIC_ASSETS = [
     '/index.html',
     '/pwa.html',
     '/dashboard.html',
-    '/styles.css',
-    '/pwa-styles.css',
-    '/dashboard-styles.css',
-    '/app.js',
-    '/pwa-app.js',
-    '/dashboard-app.js',
-    '/utils.js',
-    '/i18n.js',
-    '/geoportal-sample.js',
+    '/css/styles.css',
+    '/css/pwa-styles.css',
+    '/css/dashboard-styles.css',
+    '/js/app.js',
+    '/js/pwa-app.js',
+    '/js/dashboard-app.js',
+    '/js/utils.js',
+    '/js/i18n.js',
+    '/js/geoportal-sample.js',
     '/manifest.json',
-    '/icon-192.svg',
-    '/icon-512.svg',
+    '/assets/icons/icon-192.svg',
+    '/assets/icons/icon-512.svg',
     'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
 ];

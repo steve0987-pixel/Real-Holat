@@ -17,7 +17,7 @@ let geoportalData = [];
 // ===== LOAD CSV FROM FILE =====
 async function loadGeoportalCSV() {
     try {
-        const response = await fetch('geoportal_data.csv');
+        const response = await fetch('data/geoportal_data.csv');
         const csvText = await response.text();
 
         // Parse CSV
@@ -189,9 +189,9 @@ function updateTime() {
 function initializeChat() {
     // Get localized greeting messages
     const greetings = {
-        uz: { welcome: "Assalomu alaykum! 👋 Men Real Holat botiman.", help: "Men sizga ijtimoiy infratuzilma muammolarini xabar qilishda yordam beraman. Quyidagi tugmalardan birini tanlang:" },
-        ru: { welcome: "Здравствуйте! 👋 Я бот Real Holat.", help: "Я помогу вам сообщить о проблемах социальной инфраструктуры. Выберите одну из кнопок ниже:" },
-        en: { welcome: "Hello! 👋 I'm Real Holat bot.", help: "I'll help you report social infrastructure issues. Choose one of the buttons below:" }
+        uz: { welcome: "Assalomu alaykum! 👋 Men Sign botiman.", help: "Men sizga ijtimoiy infratuzilma muammolarini xabar qilishda yordam beraman. Quyidagi tugmalardan birini tanlang:" },
+        ru: { welcome: "Здравствуйте! 👋 Я бот Sign.", help: "Я помогу вам сообщить о проблемах социальной инфраструктуры. Выберите одну из кнопок ниже:" },
+        en: { welcome: "Hello! 👋 I'm Sign bot.", help: "I'll help you report social infrastructure issues. Choose one of the buttons below:" }
     };
     const lang = typeof i18n !== 'undefined' ? i18n.getLang() : 'uz';
     const msg = greetings[lang] || greetings.uz;

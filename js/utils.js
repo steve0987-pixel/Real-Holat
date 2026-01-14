@@ -105,7 +105,7 @@ const GEOPORTAL_TYPE_MAPPING = {
  * @param {number} limit - Maximum number of records to load (default: 500)
  * @returns {Promise<Array>} Array of geoportal objects
  */
-async function loadGeoportalCSV(csvPath = 'geoportal_data.csv', limit = 500) {
+async function loadGeoportalCSV(csvPath = 'data/geoportal_data.csv', limit = 500) {
     try {
         const response = await fetch(csvPath);
         const csvText = await response.text();

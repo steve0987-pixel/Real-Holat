@@ -1,6 +1,6 @@
-# Real Holat - Citizen Reporting Platform 🇺🇿
+# Sign - Citizen Reporting Platform 🇺🇿
 
-**Real Holat** is a digital platform designed to help citizens report social infrastructure issues (such as road defects, water supply problems, school repairs, etc.) directly to the authorities. It features a gamified experience to encourage active citizenship.
+**Sign** is a digital platform designed to help citizens report social infrastructure issues (such as road defects, water supply problems, school repairs, etc.) directly to the authorities. It features a gamified experience to encourage active citizenship.
 
 ## 🚀 Features
 

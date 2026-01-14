@@ -7,7 +7,7 @@ let geoportalData = [];
 // ===== LOAD CSV FROM FILE =====
 async function loadGeoportalCSV() {
     try {
-        const response = await fetch('geoportal_data.csv');
+        const response = await fetch('data/geoportal_data.csv');
         const csvText = await response.text();
 
         // Parse CSV

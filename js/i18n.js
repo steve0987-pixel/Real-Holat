@@ -5,7 +5,7 @@ const translations = {
     // ===== UZBEK (DEFAULT) =====
     uz: {
         // Common
-        appName: "Real Holat",
+        appName: "Sign",
         appSubtitle: "Fuqarolar portali",
         language: "Til",
 
@@ -231,7 +231,7 @@ const translations = {
     // ===== RUSSIAN =====
     ru: {
         // Common
-        appName: "Real Holat",
+        appName: "Sign",
         appSubtitle: "Портал граждан",
         language: "Язык",
 
@@ -454,7 +454,7 @@ const translations = {
     // ===== ENGLISH =====
     en: {
         // Common
-        appName: "Real Holat",
+        appName: "Sign",
         appSubtitle: "Citizens Portal",
         language: "Language",
 
